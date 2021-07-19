@@ -7,21 +7,45 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
+  @override
+  void initState() {
+    super.initState();
+    getLocation();
+    print("hii");
+  }
+
+  //todo:get location
   void getLocation() async {
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.low);
-    print(position);
+    try {
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.low,
+          forceAndroidLocationManager: true);
+      print(position);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void somethingThatExpectsLesstThan10(int n) {
+    if (n > 10) {
+      throw "  n is greater than 10, n should alway be less than 10";
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    String myMagin = "5s";
+    dynamic myMaginAsDouble;
+    try {
+      myMaginAsDouble = double.parse(myMagin);
+    } catch (e) {
+      print(e);
+      //myMaginAsDouble = 30.0;
+    }
     return Scaffold(
-      body: Center(
-        child: RaisedButton(
-            onPressed: () {
-              getLocation();
-            },
-            child: Text("get location")),
+      body: Container(
+        margin: EdgeInsets.all(myMaginAsDouble ?? 30),
+        color: Colors.red,
       ),
     );
   }

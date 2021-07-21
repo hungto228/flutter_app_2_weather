@@ -1,9 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_app_2_weather/screens/location_screen.dart';
 import 'package:flutter_app_2_weather/services/location.dart';
 import 'package:flutter_app_2_weather/services/networking.dart';
-import 'package:http/http.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 const apiKey = "a35293af4d5a42fb921c6d89103c4caf";
 
@@ -36,6 +35,9 @@ class _LoadingScreenState extends State<LoadingScreen> {
         "http://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longtitude&appid=$apiKey");
     var weatherData = await helper.getData();
     print(weatherData);
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return LocationScreen();
+    }));
   }
 
   void somethingThatExpectsLesstThan10(int n) {
@@ -46,20 +48,13 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
-    // String myMagin = "5s";
-    // dynamic myMaginAsDouble;
-    // try {
-    //   myMaginAsDouble = double.parse(myMagin);
-    // } catch (e) {
-    //   print(e);
-    //   //myMaginAsDouble = 30.0;
-    // }
-    // return Scaffold(
-    //   body: Container(
-    //     margin: EdgeInsets.all(myMaginAsDouble ?? 30),
-    //     color: Colors.red,
-    //   ),
-    // );
+    return Scaffold(
+      body: Center(
+        child: SpinKitDualRing(
+          color: Colors.white,
+          size: 100.0,
+        ),
+      ),
+    );
   }
 }

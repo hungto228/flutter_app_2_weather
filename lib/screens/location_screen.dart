@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_2_weather/services/weather.dart';
 import 'package:flutter_app_2_weather/ulties/constants.dart';
 
 class LocationScreen extends StatefulWidget {
   const LocationScreen({this.locationWeather});
+
   final locationWeather;
 
   @override
@@ -11,9 +13,12 @@ class LocationScreen extends StatefulWidget {
 }
 
 class _LocationScreenState extends State<LocationScreen> {
+  WeatherModel weatherModel = WeatherModel();
   late int temprature;
-  late int condition;
+  late String weatherIcon;
   late String cityName;
+  late String weatherMessage;
+
   @override
   void initState() {
     super.initState();
@@ -21,10 +26,14 @@ class _LocationScreenState extends State<LocationScreen> {
   }
 
   void updateUi(dynamic weatherData) {
-    double temp = weatherData['main']['temp'];
-    temprature = temp.toInt();
-    condition = weatherData["weather"][0]["id"];
-    cityName = weatherData["name"];
+    setState(() {
+      double temp = weatherData['main']['temp'];
+      temprature = temp.toInt();
+      var condition = weatherData["weather"][0]["id"];
+      weatherIcon = weatherModel.getWeatherIcon(condition);
+      weatherMessage = weatherModel.getMessage(temprature);
+      cityName = weatherData["name"];
+    });
   }
 
   @override
@@ -69,7 +78,7 @@ class _LocationScreenState extends State<LocationScreen> {
                       style: kTempTextStyle,
                     ),
                     Text(
-                      "☀",
+                      "$weatherIcon",
                       style: kConditionTextStyle,
                     )
                   ],
@@ -78,7 +87,7 @@ class _LocationScreenState extends State<LocationScreen> {
               Padding(
                 padding: EdgeInsets.only(right: 15.0),
                 child: Text(
-                  '$cityName',
+                  '$weatherMessage in $cityName',
                   textAlign: TextAlign.center,
                   style: kMessageTextStyle,
                 ),

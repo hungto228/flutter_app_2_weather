@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_2_weather/screens/city_screen.dart';
 import 'package:flutter_app_2_weather/services/weather.dart';
 import 'package:flutter_app_2_weather/ulties/constants.dart';
 
@@ -74,7 +75,12 @@ class _LocationScreenState extends State<LocationScreen> {
                         size: 50.0,
                       )),
                   FlatButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return CityScreen();
+                        }));
+                      },
                       child: Icon(
                         Icons.location_city,
                         size: 50.0,
